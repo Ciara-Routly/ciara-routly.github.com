@@ -1,0 +1,215 @@
+<!-- Author: Ciara Routly
+Date: February 27, 2017 -->
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+	
+	<center>
+
+	<h1><em><big><font face="palatino" color="black">CHAR Match!</font></big></em></h1>
+
+		<style>
+			div#memory_board
+			{
+				background:#d53939;
+				border:#3c3b5c 10px double;
+				width:800px;
+				height:540px;
+				padding:24px;
+				margin:0px auto;
+			}
+			div#memory_board > div
+			{
+
+				background: #3c3b5c;
+				border:#000 1.4px solid;
+				width:71px;
+				height:71px;
+				float:left;
+				margin:10px;
+				padding:20px;
+				font-size:64px;
+				cursor:crosshair;
+				text-align:center;
+
+			}
+
+		</style>
+
+		<script>
+			// global variable declaration
+
+			var i = 0;
+			
+			var memory_array = new Array('&#9786', '&#9786', '&#9730', '&#9730', '&#9788', '&#9788', '&#9829', '&#9829', '&#9650', '&#9650', '&#9834', '&#9834', '&#9830', '&#9830', '&#9839', '&#9839', '&#9632', '&#9632', '&#9679', '&#9679', '&#9824', '&#9824', '&#9830', '&#9830');
+
+			var memory_values = [];
+
+			var memory_tile_ids = [];
+
+			var numTilesFlipped = 0;
+			
+			Array.prototype.memory_tile_shuffle = function()
+			{
+				var length = this.length;
+
+				var rand = 0;
+
+				var temp = 0;
+				
+				while(--length > 0)
+				{
+					
+					rand = Math.floor(Math.random() * (length) + 1);
+
+					
+					temp = this[rand];
+
+					
+					this[rand] = this[length];
+
+					
+					this[length] = temp;
+
+				}
+			}
+			
+			function newBoard()
+			{
+				
+				numTilesFlipped = 0;
+				
+				
+				var output = "";
+				
+			
+		        memory_array.memory_tile_shuffle();
+				
+				
+				for(i=0;i<memory_array.length;i++)
+				{
+				
+					output += '<div id = "tile_' + 
+							 i + 
+							 '" onclick = "memoryFlipTile(this, \'' + 
+							 memory_array[i] + 
+							 '\')"></div>';
+
+				}
+				
+				document.getElementById('memory_board').innerHTML = output;
+
+			}
+			
+			function memoryFlipTile(tile, val)
+			{
+				
+				if(tile.innerHTML == "" && memory_values.length < 2)
+				{
+		
+					tile.style.background = '#7b3c59';
+					
+					
+					tile.innerHTML = val;
+					
+					
+					if(memory_values.length == 0)
+					{
+						
+						memory_values.push(val);
+						
+						
+						memory_tile_ids.push(tile.id);
+
+					} 
+					
+					else if(memory_values.length == 1)
+					{
+						
+						memory_values.push(val);
+
+						
+						memory_tile_ids.push(tile.id);
+						
+						
+						if(memory_values[0] == memory_values[1])
+						{
+							
+
+							numTilesFlipped += 2;
+
+						
+							memory_values = [];
+							
+
+							memory_tile_ids = [];
+							
+							
+							if(numTilesFlipped == memory_array.length)
+							{
+								
+								alert("Fantastic! Generating new game.");
+								
+								
+								document.getElementById('memory_board').innerHTML = "";
+								
+								
+								newBoard();
+
+							}
+						} 
+						
+						else 
+						{
+							
+
+							function flip2Back()
+							{
+								
+								var tile_1 = document.getElementById(memory_tile_ids[0]);
+
+								
+								var tile_2 = document.getElementById(memory_tile_ids[1]);
+								
+								
+								// when flip over
+								tile_1.style.background = '	#3c3b5c';
+								tile_1.innerHTML = "";
+								
+
+								// when flip over
+								tile_2.style.background = '	#3c3b5c';
+								tile_2.innerHTML = "";
+								
+								
+								memory_values = [];
+								
+								
+								memory_tile_ids = [];
+							}
+							
+							
+							setTimeout(flip2Back, 700);
+
+						}
+					}
+				}
+			}
+
+
+		</script>
+	</head>
+
+	<!--background -->
+	<body bgcolor="#ffb563">
+	<div id = "memory_board"></div>
+	
+	<script>
+
+		newBoard();
+		
+			</script>
+	</body>
+</html>

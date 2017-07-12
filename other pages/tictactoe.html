@@ -1,0 +1,191 @@
+<!-- Author: Ciara Routly -->
+
+<html>
+	<head>
+		<style>
+			.tictac
+			{
+				background:lavender;
+				border:mediumpurple 10px groove;
+				width:180px;
+				height:180px;
+				font-size:150px;
+			}
+		</style>
+		<script>
+			
+			var gameOver = false;
+
+			
+			var currentPlayer = 'X';
+
+			
+			var squaresArray = [];
+
+			var i = 0;
+
+			var winCombinations = [	
+
+			    [0, 1, 2],
+				[3, 4, 5],
+				[6, 7, 8],
+				[0, 3, 6],
+				[1, 4, 7],
+				[2, 5, 8],
+				[0, 4, 8],
+				[2, 4, 6] 
+
+				];
+
+			
+			function reset()
+			{
+				
+				for(i=1;i<10;i++)
+				{
+					
+					var relateButton = ("sqr" + i); 
+
+					
+					document.getElementById(relateButton).value = "";
+
+				}					
+				
+				
+				squaresArray = [];
+				
+				gameOver = false;
+
+			}
+			
+			
+			function squareClick(square)
+			{
+				
+				var squareID = document.getElementById(square).value;
+
+				
+				var indexClick = ((parseInt(square.substring(3,4))) - 1);
+
+				
+				if (squareID == (""))
+				{
+					
+					document.getElementById(square).value = currentPlayer;
+					
+					
+					squaresArray[indexClick] = currentPlayer;
+
+				}
+				
+				
+				checkForWinner('X'); 
+
+				
+				checkForWinner('O');
+
+				
+				
+				if(currentPlayer == 'O'){
+
+					currentPlayer = 'X';
+				}
+
+				else {
+
+					currentPlayer = 'O';
+				}
+				
+
+			}
+			
+			
+			function playAgain()
+			{
+				
+				var response = confirm("Play Again?");
+				
+				
+				if (response == true)
+				{
+					
+					reset();
+				}
+				
+				else
+				{
+					alert("Thanks for playing!");
+					
+					exit();
+				}
+			}
+
+			
+			function checkForWinner(value)
+			{   
+
+				
+				for(i=0;i<winCombinations.length;i++)
+				{
+					
+					if(squaresArray[winCombinations[i][0]] == value && squaresArray[winCombinations [i][1]] == value
+						&& squaresArray[winCombinations[i][2]] == value)
+	
+					{
+						
+						alert(value + " is the winner!");
+
+						
+						gameOver = true;
+					}					
+				}
+				
+				
+				if (gameOver == true)
+				{
+					playAgain();
+				
+				}
+				
+				else
+				{
+					return;
+					
+				}
+			}
+		</script>
+	</head>
+	<body>
+	<center>
+	<h1>
+	Tic Tac Toe!
+	</h1>
+		<table>
+			<tr>
+				<td><input type="button" id="sqr1" name="sqr1" class="tictac" onClick="squareClick('sqr1')" /></td>
+				
+				<td><input type="button" id="sqr2" name="sqr2" class="tictac" onClick="squareClick('sqr2')" /></td>
+				<td><input type="button" id="sqr3" name="sqr3" class="tictac" onClick="squareClick('sqr3')" /></td>
+			</tr>
+			
+			<tr>
+				
+				<td><input type="button" id="sqr4" name="sqr4" class="tictac" onClick="squareClick('sqr4')" /></td>
+				
+				<td><input type="button" id="sqr5" name="sqr5" class="tictac" onClick="squareClick('sqr5')" /></td>
+				
+				<td><input type="button" id="sqr6" name="sqr6" class="tictac" onClick="squareClick('sqr6')" /></td>
+			</tr>
+			
+			<tr>
+				
+				<td><input type="button" id="sqr7" name="sqr7" class="tictac" onClick="squareClick('sqr7')" /></td>
+				
+				<td><input type="button" id="sqr8" name="sqr8" class="tictac" onClick="squareClick('sqr8')" /></td>
+				
+				<td><input type="button" id="sqr9" name="sqr9" class="tictac" onClick="squareClick('sqr9')" /></td>
+			</tr>
+		</table>
+	 <center>
+	</body>
+</html>
